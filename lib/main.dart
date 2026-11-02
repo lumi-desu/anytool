@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'pages/settings.dart';
 
 // Dark and light background variants to follow system theme
 const Color themecolorbgDark = Color(0xFF444444);
 const Color themecolorbgLight = Color(0xFFF5F5F5);
-const Color themecolorfg = Color.fromARGB(255, 255, 39, 39);
+const Color themecolorfg = Color.fromARGB(255, 239, 69, 69);
 
 void main() {
   runApp(const MyApp());
@@ -57,6 +58,27 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: SafeArea(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(color: themecolorfg),
+                child: Text('AnyTool', style: TextStyle(color: Colors.white, fontSize: 24)),
+              ),
+              ListTile(
+                leading: const Icon(Icons.settings),
+                title: const Text('Settings'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsPage()));
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         //backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
