@@ -54,25 +54,51 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {  
+  bool _styborder = false; // drawer rounded when true
+  bool _inverttext = false; // false => white text, true => black text
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
+        shape: _styborder
+            ? const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(topRight: Radius.circular(16), bottomRight: Radius.circular(16)),
+              )
+            : null,
         child: SafeArea(
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
+                curve: Easing.standard,
                 decoration: BoxDecoration(color: themecolorfg),
-                child: Text('AnyTool', style: TextStyle(color: Colors.white, fontSize: 24)),
+                child: Text('AnyTool', style: TextStyle(fontSize: 24)),
               ),
               ListTile(
                 leading: const Icon(Icons.settings),
                 title: const Text('Settings'),
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsPage()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SettingsPage(
+                        useRounded: _styborder,
+                        invertText: _inverttext,
+                        onUseRoundedChanged: (v) => setState(() => _styborder = v),
+                        onInvertTextChanged: (v) => setState(() => _inverttext = v),
+                      ),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.format_paint),
+                title: const Text('Settings'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Tool3(title: 'a', invertText: _inverttext)));
                 },
               ),
             ],
@@ -96,19 +122,19 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 //SizedBox(width: 10, height: 10, child:
                 RawMaterialButton(child: const Icon(Icons.navigate_next), onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const Tool1(title: 'Yes or No')),);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Tool1(title: 'Yes or No', invertText: _inverttext)),);
                 }),//),
                 //SizedBox(width: 10, height: 10, child:
                 RawMaterialButton(child: const Icon(Icons.navigate_next), onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const Tool2(title: 'Random Number Gen')));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Tool2(title: 'Random Number Gen', invertText: _inverttext)));
                 }),//),
                 //SizedBox(width: 10, height: 10, child:
                 RawMaterialButton(child: const Icon(Icons.navigate_next), onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const Tool3(title: 'Whiteboard')));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Tool3(title: 'Whiteboard', invertText: _inverttext)));
                 }),
                 //)
                 RawMaterialButton(child: const Icon(Icons.navigate_next), onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const Tool3(title: 'Coming Soon')));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Tool3(title: 'Coming Soon', invertText: _inverttext)));
                 }),
               ],
             //),
@@ -126,9 +152,10 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class Tool1 extends StatefulWidget {
-  const Tool1({super.key, required this.title});
+  const Tool1({super.key, required this.title, required this.invertText});
 
   final String title;
+  final bool invertText;
 
   @override
   State<Tool1> createState() => _Tool1();
@@ -155,10 +182,10 @@ class _Tool1 extends State<Tool1> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Your chioce is:', style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
+            Text('Your chioce is:', style: TextStyle(color: widget.invertText ? Colors.black : Colors.white)),
             Text(
               '$_randomn',
-              style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 50),
+              style: TextStyle(color: widget.invertText ? Colors.black : Colors.white, fontSize: 50),
             ),
             ElevatedButton(onPressed: generateRamdom , child:  const Text('Get choice')),
           ],
@@ -175,9 +202,10 @@ class _Tool1 extends State<Tool1> {
 }
 
 class Tool2 extends StatefulWidget { // 1 thing to change here if copy
-  const Tool2({super.key, required this.title}); // and here
+  const Tool2({super.key, required this.title, required this.invertText}); // and here
 
   final String title;
+  final bool invertText;
 
   @override
   State<Tool2> createState() => _Tool2(); // 2 things to change here if copy
@@ -204,9 +232,9 @@ class _Tool2 extends State<Tool2> { // 2 things
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Your random number is:', style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
+            Text('Your random number is:', style: TextStyle(color: widget.invertText ? Colors.black : Colors.white)),
             Text(
-              '$_randomn', style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 50),
+              '$_randomn', style: TextStyle(color: widget.invertText ? Colors.black : Colors.white, fontSize: 50),
             ),
             ElevatedButton(onPressed: generateRamdom , child:  const Text('Get random number')),
           ],
@@ -223,9 +251,10 @@ class _Tool2 extends State<Tool2> { // 2 things
 }
 
 class Tool3 extends StatefulWidget { // 1 thing to change here if copy
-  const Tool3({super.key, required this.title}); // and here
+  const Tool3({super.key, required this.title, required this.invertText}); // and here
 
   final String title;
+  final bool invertText;
 
   @override
   State<Tool3> createState() => _Tool3(); // 2 things to change here if copy
