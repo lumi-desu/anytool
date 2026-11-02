@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'pages/settings.dart';
+import 'page/setting.dart';
 
 // Dark and light background variants to follow system theme
 const Color themecolorbgDark = Color(0xFF444444);
