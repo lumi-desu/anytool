@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'page/setting.dart';
 
-// Dark and light background variants to follow system theme
 const Color themecolorbgDark = Color(0xFF444444);
 const Color themecolorbgLight = Color(0xFFF5F5F5);
 const Color themecolorfg = Color.fromARGB(255, 239, 69, 69);
@@ -65,7 +64,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ? const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(topRight: Radius.circular(16), bottomRight: Radius.circular(16)),
               )
-            : null,
+            : const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(topRight: Radius.circular(0), bottomRight: Radius.circular(0)),
+              ),
         child: SafeArea(
           child: ListView(
             padding: EdgeInsets.zero,
@@ -95,10 +96,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               ListTile(
                 leading: const Icon(Icons.format_paint),
-                title: const Text('Settings'),
+                title: const Text('Placeholder'),
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Tool3(title: 'a', invertText: _inverttext)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Tool3(title: 'fav tools list maybe?', invertText: _inverttext)));
                 },
               ),
             ],
@@ -161,14 +162,31 @@ class Tool1 extends StatefulWidget {
   State<Tool1> createState() => _Tool1();
 }
 
-class _Tool1 extends State<Tool1> {
+class _Tool1 extends State<Tool1> with TickerProviderStateMixin {
   int _randomn = 0;
   final Random random = Random();
+  double feedback = 0;
+  Color textanim = Colors.black;
 
-  void generateRamdom() {
+  late final AnimationController _controller = AnimationController(duration: const Duration(milliseconds: 100), vsync: this);
+  late final Animation<double> _animation = CurvedAnimation(parent: _controller, curve: Curves.ease);
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void generateRamdomNumber() async {
     setState(() {
       _randomn = random.nextInt(2);
+
+      feedback = 20;
+      textanim = Colors.red;
     });
+
+    await _controller.forward();
+    await _controller.reverse();
   }
 
   @override
@@ -183,11 +201,8 @@ class _Tool1 extends State<Tool1> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text('Your chioce is:', style: TextStyle(color: widget.invertText ? Colors.black : Colors.white)),
-            Text(
-              '$_randomn',
-              style: TextStyle(color: widget.invertText ? Colors.black : Colors.white, fontSize: 50),
-            ),
-            ElevatedButton(onPressed: generateRamdom , child:  const Text('Get choice')),
+            ScaleTransition(scale: Tween<double>(begin: 1.0, end: 1.7).animate(_animation), child: Text('$_randomn', style: TextStyle(color: widget.invertText ? textanim : Colors.white, fontSize: 50)),),
+            ElevatedButton(onPressed: generateRamdomNumber , child:  const Text('Get choice')),
           ],
         ),
       ),
@@ -211,14 +226,31 @@ class Tool2 extends StatefulWidget { // 1 thing to change here if copy
   State<Tool2> createState() => _Tool2(); // 2 things to change here if copy
 }
 
-class _Tool2 extends State<Tool2> { // 2 things
+class _Tool2 extends State<Tool2> with TickerProviderStateMixin { // 2 things
   int _randomn = 0;
   final Random random = Random();
+  double feedback = 0;
+  Color textanim = Colors.black;
 
-  void generateRamdom() {
+  late final AnimationController _controller = AnimationController(duration: const Duration(milliseconds: 100), vsync: this);
+  late final Animation<double> _animation = CurvedAnimation(parent: _controller, curve: Curves.ease);
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void generateRamdomNumber() async {
     setState(() {
       _randomn = random.nextInt(100);
+
+      feedback = 20;
+      textanim = Colors.red;
     });
+
+    await _controller.forward();
+    await _controller.reverse();
   }
 
   @override
@@ -233,10 +265,8 @@ class _Tool2 extends State<Tool2> { // 2 things
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text('Your random number is:', style: TextStyle(color: widget.invertText ? Colors.black : Colors.white)),
-            Text(
-              '$_randomn', style: TextStyle(color: widget.invertText ? Colors.black : Colors.white, fontSize: 50),
-            ),
-            ElevatedButton(onPressed: generateRamdom , child:  const Text('Get random number')),
+            ScaleTransition(scale: Tween<double>(begin: 1.0, end: 1.7).animate(_animation), child: Text('$_randomn', style: TextStyle(color: widget.invertText ? textanim : Colors.white, fontSize: 50)),),
+            ElevatedButton(onPressed: generateRamdomNumber, child:  const Text('Get random number')),
           ],
         ),
       ),
