@@ -369,6 +369,13 @@ class _Tool3 extends State<Tool3> { // 2 things
                     child: const Icon(Icons.clear),
                   ),
                   const SizedBox(height: 8),
+
+                  FloatingActionButton.small(
+                    heroTag: 'undo',
+                    onPressed: () => setState(() => points.removeAt(points.length)),
+                    child: const Icon(Icons.undo),
+                  ),
+                  const SizedBox(height: 8),
                 ],
                 FloatingActionButton(
                   heroTag: 'toolbox',
