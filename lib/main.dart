@@ -1,3 +1,4 @@
+import 'package:anytool/page/ratiocal.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'page/setting.dart';
@@ -135,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 }),
                 //)
                 RawMaterialButton(child: const Icon(Icons.navigate_next), onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Tool3(title: 'Coming Soon', invertText: _inverttext)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => RatioCalPage(title: 'Coming Soon', invertText: _inverttext)));
                 }),
               ],
             //),
